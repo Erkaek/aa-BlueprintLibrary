@@ -1,16 +1,13 @@
-"""App Configuration"""
-
 # Django
 from django.apps import AppConfig
 
-# BlueprintLibrary
-# AA Example App
-from BlueprintLibrary import __version__
 
+class BlueprintsConfig(AppConfig):
+    """Configuration de l'application Blueprints pour Alliance Auth."""
 
-class BlueprintLibraryConfig(AppConfig):
-    """App Config"""
+    name = "blueprints"
+    label = "blueprints"
+    verbose_name = "Blueprints"
 
-    name = "BlueprintLibrary"
-    label = "BlueprintLibrary"
-    verbose_name = f"BlueprintLibrary App v{__version__}"
+    # Django 3.2+ : champ auto par défaut pour les clés primaires
+    default_auto_field = "django.db.models.AutoField"

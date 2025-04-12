@@ -1,0 +1,34 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% block title %}Mes demandes de blueprint{% endblock %}
+{% block content %}
+    <div class="container-fluid py-3">
+        <h3>Mes demandes de Blueprint</h3>
+        {% if requests %}
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Blueprint</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                        <tr>
+                            <td>{{ req.blueprint_type.name }}</td>
+                            <td>{{ req.requested_at|date:'SHORT_DATETIME_FORMAT' }}</td>
+                            <td>
+                                {% if req.status == 'open' %}<span class="badge bg-warning text-dark">En attente</span>{% endif %}
+                                {% if req.status == 'approved' %}<span class="badge bg-success">Approuvée</span>{% endif %}
+                                {% if req.status == 'denied' %}<span class="badge bg-danger">Refusée</span>{% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted">Vous n'avez fait aucune demande pour le moment.</p>
+        {% endif %}
+        <a href="{% url 'blueprints:library' %}" class="btn btn-secondary mt-2">← Retour à la bibliothèque</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% block title %}Demander un Blueprint{% endblock %}
+{% block content %}
+    <div class="container py-4">
+        <h3>Créer une demande de blueprint</h3>
+        <form method="post" class="card card-body">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.blueprint_type.label_tag }}
+                {{ form.blueprint_type|as_widget(attrs={ class: 'form-select' }) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+            <a href="{% url 'blueprints:library' %}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+{% endblock %}

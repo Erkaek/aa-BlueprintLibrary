@@ -1,0 +1,10 @@
+/* Styles custom pour le module Blueprints (Bootstrap 5 est déjà chargé globalement) */
+
+/* Assure que le tableau de la bibliothèque défile horizontalement sur mobile */
+#blueprints-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Badges personnalisés si besoin (couleurs BS5 utilisées) */
+/* .badge.bg-primary (copie) et .badge.bg-success (original) sont déjà couverts par BS5 */

@@ -1,0 +1,48 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% load static %}
+{% block title %}Blueprints - Bibliothèque{% endblock %}
+{% block content %}
+    <div class="container-fluid py-3">
+        <h3>Bibliothèque de Blueprints</h3>
+        <p class="text-muted">
+            Liste de tous les plans disponibles
+            {% if blueprint_count %}({{ blueprint_count }} plans){% endif %}
+            .
+        </p>
+        <table id="blueprints-table"
+            class="table table-striped table-bordered table-sm"
+            style="width:100%">
+            <thead>
+                <tr>
+                    <th>Type de Blueprint</th>
+                    <th>Runs restants</th>
+                    <th>ME</th>
+                    <th>TE</th>
+                    <th>Emplacement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les données seront insérées par DataTables -->
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{% static 'datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'datatables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script>
+    $(document).ready(function () {
+        $('#blueprints-table').DataTable({
+        serverSide: true,
+        processing: true,
+        ajax: "{% url 'blueprints:data' %}",
+        columns: [{ data: 'eve_type.name' }, { data: 'runs' }, { data: 'material_efficiency' }, { data: 'time_efficiency' }, { data: 'location_name' }],
+        pageLength: 25,
+        order: [[0, 'asc']],
+        language: {
+            url: "{% static 'datatables/locale/dataTables.french.json' %}" // Chemin vers un fichier de traduction en français, si disponible
+        }
+        })
+    })
+    </script>
+{% endblock %}

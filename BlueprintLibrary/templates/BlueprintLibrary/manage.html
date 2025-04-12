@@ -1,0 +1,43 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% block title %}Gestion des Blueprints{% endblock %}
+{% block content %}
+    <div class="container py-3">
+        <h3>Gestion des Blueprints suivis</h3>
+        <div class="mb-3">
+            <h5>Propriétaires suivis :</h5>
+            <ul>
+                {% for owner in owners %}
+                    <li>
+                        {{ owner }}
+                        {% if owner.is_corporation %}
+                            (Corporation)
+                        {% else %}
+                            (Personnel)
+                        {% endif %}
+                        <!-- Option de suppression -->
+                        <form method="post"
+                                action="{% url 'blueprints:remove_owner' owner.id %}"
+                                class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Retirer</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <li class="text-muted">Aucun propriétaire de blueprint n'est suivi pour l'instant.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="card p-3">
+            <h5>Ajouter un nouveau propriétaire de blueprints</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-2">{{ form.character.label_tag }} {{ form.character|as_widget(attrs={ class: 'form-select' }) }}</div>
+                <div class="form-check mb-2">
+                    {{ form.add_corporation|as_widget(attrs={ class: 'form-check-input' }) }}
+                    {{ form.add_corporation.label_tag }}
+                </div>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% block title %}Blueprint {{ blueprint.eve_type.name }}{% endblock %}
+{% block content %}
+    <div class="container-fluid py-3">
+        <h3>Détails du Blueprint</h3>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ blueprint.eve_type.name }}
+                    {% if blueprint.is_original %}
+                        <span class="badge bg-success">Original</span>
+                    {% else %}
+                        <span class="badge bg-primary">Copie</span>
+                    {% endif %}
+                </h5>
+                <p class="card-text">
+                    <strong>Matériel:</strong> {{ blueprint.material_efficiency }}%
+                    <br />
+                    <strong>Temps:</strong> {{ blueprint.time_efficiency }}%
+                    <br />
+                    <strong>Runs restants:</strong>
+                    {% if blueprint.is_original %}
+                        ∞ (original illimité)
+                    {% else %}
+                        {{ blueprint.runs }}
+                    {% endif %}
+                    <br />
+                    <strong>Emplacement:</strong> {{ blueprint.location_name }}
+                </p>
+                {% if can_request %}
+                    <a href="{% url 'blueprints:create_request' %}?blueprint_type={{ blueprint.eve_type.id }}"
+                    class="btn btn-primary"><i class="fas fa-copy"></i> Demander une copie de ce blueprint</a>
+                {% endif %}
+            </div>
+        </div>
+        {% if industry_jobs %}
+            <h5>Travaux en cours sur ce blueprint</h5>
+            <ul class="list-group mb-3">
+                {% for job in industry_jobs %}
+                    <li class="list-group-item">
+                        Job #{{ job.job_id }} – {{ job.activity }} – Statut: {{ job.status }}
+                        {% if job.end_date %}(fin prévue: {{ job.end_date|date:'SHORT_DATETIME_FORMAT' }}){% endif %}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Aucun travail en cours sur ce blueprint.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <a href="{% url 'blueprints:library' %}" class="btn btn-secondary">← Retour à la liste</a>
+    </div>
+{% endblock %}
